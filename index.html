@@ -14,6 +14,7 @@
             height: 100vh;
             overflow: hidden; /* Para esconder a barra de rolagem padrão */
             background-color: #282c34; /* Cor de fundo do body */
+            color: #ffffff;
         }
 
         .container {
@@ -22,12 +23,41 @@
             z-index: 1;
         }
 
-        h1, #countdown {
-            color: #ff0000; /* Cor do texto para destacar no fundo */
+        h1 {
+            margin-bottom: 20px;
         }
 
         #countdown {
             font-size: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .countdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 200px;
+            width: 200px;
+            background: transparent;
+            border-radius: 3px;
+            box-shadow: 0px 8px 10px rgba(0, 0, 0, .5)
+        }
+
+        .countdown-div {
+            height: 170px;
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: rgba(0, 0, 0, .9);
+            box-shadow: rgba(0, 0, 0, .7);
+            border: 7px;
+            letter-spacing: 3px;
         }
 
         /* Fundo interativo */
@@ -59,6 +89,39 @@
             cursor: pointer;
             margin-top: 20px;
         }
+
+        #audioPlayer {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #ff0000;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 400px; /* Ajuste conforme necessário */
+            margin-top: 10px;
+        }
+
+        #audioControls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        #playPauseBtn, #volumeControl {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +136,18 @@
             
             <!-- Botão de Localização -->
             <button id="locationButton">Localização do Rolê</button>
+
+            <!-- Player de Áudio -->
+            <div id="audioPlayer">
+                <audio controls>
+                    <source src="Luxuria.mp3" type="audio/mp3">
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+                <div id="audioControls">
+                    <button id="playPauseBtn">Play/Pause</button>
+                    <button id="volumeControl">Mute</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -89,7 +164,13 @@
                 const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-                document.getElementById('countdown').innerText = `${days} dias, ${hours} horas, ${minutes} minutos, ${seconds} segundos`;
+                const countdownElement = document.getElementById('countdown');
+                countdownElement.innerHTML = `
+                    <div class="countdown-item">${days} <br> dias</div>
+                    <div class="countdown-item">${hours} <br> horas</div>
+                    <div class="countdown-item">${minutes} <br> minutos</div>
+                    <div class="countdown-item">${seconds} <br> segundos</div>
+                `;
             }
 
             // Atualizar o contador a cada segundo
@@ -102,6 +183,19 @@
             document.getElementById('locationButton').addEventListener('click', function() {
                 // Abrir link do Google Maps
                 window.open('https://www.google.com/maps/@-20.4817156,-45.8059682,3a,75y,202.69h,92.18t/data=!3m8!1e1!3m6!1sAF1QipNAxsiSjvDlHUvEt-TIu0phAAaBQv7rQyiulkcs!2e10!3e11!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipNAxsiSjvDlHUvEt-TIu0phAAaBQv7rQyiulkcs%3Dw86-h86-k-no-pi-0.72020364-ya194.89784-ro2.535599-fo100!7i7200!8i3600?hl=pt-BR&entry=ttu');
+            });
+            document.getElementById('playPauseBtn').addEventListener('click', function() {
+                const audio = document.querySelector('audio');
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            });
+
+            document.getElementById('volumeControl').addEventListener('click', function() {
+                const audio = document.querySelector('audio');
+                audio.muted = !audio.muted;
             });
         });
     </script>
