@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden; /* Para esconder a barra de rolagem padrão */
+            background-color: #282c34; /* Cor de fundo do body */
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1, #countdown {
+            color: #ff0000; /* Cor do texto para destacar no fundo */
+        }
+
+        #countdown {
+            font-size: 2em;
+        }
+
+        /* Fundo interativo */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(8px);
+            transform: scale(1.2);
+        }
+
+        /* Estilo do botão de localização */
+        #locationButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <img src="carnaval-cke.jpg" alt="Background"> 
+    </div>
+
+    <div class="container">
+        <div class="countdown-box">
+            <h1>Contagem Regressiva Para o Carnaval</h1>
+            <div id="countdown"></div>
+            
+            <!-- Botão de Localização -->
+            <button id="locationButton">Localização do Rolê</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const targetDate = new Date('2024-02-10T00:00:00');
+    
+            function updateCountdown() {
+                const currentDate = new Date();
+                const difference = targetDate - currentDate;
+
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerText = `${days} dias, ${hours} horas, ${minutes} minutos, ${seconds} segundos`;
+            }
+
+            // Atualizar o contador a cada segundo
+            setInterval(updateCountdown, 1000);
+
+            // Chamar a função para garantir que o contador seja exibido imediatamente
+            updateCountdown();
+
+            // Adicionar evento de clique ao botão de localização
+            document.getElementById('locationButton').addEventListener('click', function() {
+                // Abrir link do Google Maps
+                window.open('https://www.google.com/maps/@-20.4817156,-45.8059682,3a,75y,202.69h,92.18t/data=!3m8!1e1!3m6!1sAF1QipNAxsiSjvDlHUvEt-TIu0phAAaBQv7rQyiulkcs!2e10!3e11!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipNAxsiSjvDlHUvEt-TIu0phAAaBQv7rQyiulkcs%3Dw86-h86-k-no-pi-0.72020364-ya194.89784-ro2.535599-fo100!7i7200!8i3600?hl=pt-BR&entry=ttu');
+            });
+        });
+    </script>
+</body>
+</html>
